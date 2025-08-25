@@ -17,8 +17,14 @@ public class CalculationServiceImpl implements CalculationService {
         Integer num1 = numberConversionService.word2number(number1, appLocale);
         Integer num2 = numberConversionService.word2number(number2, appLocale);
 
-        // !TODO: Multiple Operations
-        Integer result = num1 + num2;
+        Integer result = null;
+        result = switch (operation) {
+            case ADD -> num1 + num2;
+            case SUBTRACT -> num1 - num2;
+            case MULTIPLY -> num1 * num2;
+            case DIVIDE -> num1 / num2;
+            case MOD -> num1 % num2;
+        };
 
         return numberConversionService.number2word(result, appLocale);
     }
