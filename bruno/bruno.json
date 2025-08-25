@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "AselsanCase",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

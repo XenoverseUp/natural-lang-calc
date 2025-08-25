@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class CalculationRequest {
-    int number1;
-    int number2;
+    String number1;
+    String number2;
     Operation operation;
 }

@@ -1,0 +1,15 @@
+meta {
+  name: Calculate
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{host}}/{{spec}}/calculate
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
