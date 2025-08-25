@@ -16,8 +16,13 @@ public class CalculationController {
     private final CalculationService calculationService;
 
     @PostMapping("/calculate")
-    public ResponseEntity<CalculationResponse> calculate(@RequestBody CalculationRequest input) {
-        String result = calculationService.calculate("forty", "five", Operation.ADD);
+    public ResponseEntity<CalculationResponse> calculate(@RequestBody CalculationRequest body) {
+        String result = calculationService.calculate(
+                body.getNumber1(),
+                body.getNumber2(),
+                body.getOperation(),
+                body.getAppLocale()
+        );
 
         CalculationResponse response = new CalculationResponse(result);
         return ResponseEntity.ok(response);
