@@ -2,16 +2,21 @@ package com.xenoverseup.natural_calculator.service.impl;
 
 import com.xenoverseup.natural_calculator.model.AppLocale;
 import com.xenoverseup.natural_calculator.service.NumberConversionService;
+import com.xenoverseup.natural_calculator.util.number.NumberProcessor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
 @Service
+@RequiredArgsConstructor
 public class NumberConversionServiceImpl implements NumberConversionService {
+    private final Map<String, NumberProcessor> processors;
 
     @Override
     public String number2word(Integer number, AppLocale appLocale) {
+
         return switch (appLocale) {
             case TR -> convertNumberToTurkishWords(number);
             case EN -> convertNumberToEnglishWords(number);
@@ -71,13 +76,11 @@ public class NumberConversionServiceImpl implements NumberConversionService {
             return convertNumberToEnglishWords(millionsPart) + " million" + (remainder != 0 ? " " + convertNumberToEnglishWords(remainder) : "");
         }
 
-        if (number <= Integer.MAX_VALUE) { // billions
-            int billionsPart = number / 1_000_000_000;
-            int remainder = number % 1_000_000_000;
-            return convertNumberToEnglishWords(billionsPart) + " billion" + (remainder != 0 ? " " + convertNumberToEnglishWords(remainder) : "");
-        }
+        // billions
+        int billionsPart = number / 1_000_000_000;
+        int remainder = number % 1_000_000_000;
+        return convertNumberToEnglishWords(billionsPart) + " billion" + (remainder != 0 ? " " + convertNumberToEnglishWords(remainder) : "");
 
-        throw new IllegalArgumentException("Number too large");
     }
 
 
