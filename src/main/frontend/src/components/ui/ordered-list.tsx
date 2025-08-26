@@ -10,7 +10,6 @@ interface RootProps {
 
 interface StepProps {
   children: ReactNode;
-  className?: ClassValue;
 }
 
 const OrderedListContext = createContext<{ step: number }>({ step: 0 });
@@ -25,7 +24,7 @@ const OrderedList = {
       return <OrderedListContext.Provider value={{ step }}>{child}</OrderedListContext.Provider>;
     });
 
-    return <div className={cn(className, "flex flex-col gap-2")}>{wrappedChildren}</div>;
+    return <div className={cn(className, "flex flex-col gap-2 w-fit")}>{wrappedChildren}</div>;
   },
   Step: ({ children }: StepProps) => {
     const { step } = useContext(OrderedListContext);
