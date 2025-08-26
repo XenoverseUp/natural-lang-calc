@@ -16,6 +16,11 @@ public class CalculationController {
 
     private final CalculationService calculationService;
 
+    @GetMapping("/check")
+    public ResponseEntity<String> check() {
+        return  ResponseEntity.ok("OK");
+    }
+
     @PostMapping("/calculate")
     public ResponseEntity<CalculationResponse> calculate(@Valid @RequestBody CalculationRequest body) {
         String result = calculationService.calculate(
