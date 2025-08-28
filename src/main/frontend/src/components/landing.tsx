@@ -1,15 +1,11 @@
-"use client";
+import type { WithClassName } from "@/lib/types";
 
-import { cn } from "@/lib/utils";
-import type { ClassValue } from "clsx";
 import { Tally5Icon } from "lucide-react";
 import { useTranslation } from "react-i18next";
-
+import { cn } from "@/lib/utils";
 import OrderedList from "./ui/ordered-list";
 
-interface Props {
-  className?: ClassValue;
-}
+type Props = WithClassName;
 
 export default function Landing({ className }: Props) {
   const { t } = useTranslation();

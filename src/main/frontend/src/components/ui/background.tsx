@@ -1,12 +1,12 @@
-import { cn } from "@/lib/utils";
-import type { ClassValue } from "clsx";
 import type { CSSProperties } from "react";
+import type { WithClassName } from "@/lib/types";
 
-interface Props {
-  className?: ClassValue;
+import { cn } from "@/lib/utils";
+
+type Props = {
   opacity?: number;
   invert?: boolean;
-}
+} & WithClassName;
 
 export default function Background({ className, opacity = 0.1, invert = false }: Props) {
   return (

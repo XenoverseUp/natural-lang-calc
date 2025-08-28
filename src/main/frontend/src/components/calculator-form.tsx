@@ -1,4 +1,5 @@
-import type { ClassValue } from "clsx";
+import type { WithClassName } from "@/lib/types";
+
 import { Form } from "./ui/form";
 import { cn, isValidNumberWord } from "@/lib/utils";
 import { useForm } from "react-hook-form";
@@ -6,28 +7,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
 
-interface Props {
-  className?: ClassValue;
-}
+type Props = WithClassName;
 
 export default function CalculatorForm({ className }: Props) {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const currentLanguage = i18n.language as "en" | "tr";
 
   const formSchema = z.object({
     firstNumber: z
       .string()
       .transform((val) => val.replace(/\s+/g, " ").trim())
-      .refine((val) => val.length >= 3, { message: "Must be at least 3 characters" })
+      .refine((val) => val.length >= 3, { message: "Must be at least 3 characters." })
       .refine((val) => isValidNumberWord(val, currentLanguage), {
-        message: "Must be a valid number in words",
+        message: "Must be a valid number.",
       }),
     secondNumber: z
       .string()
       .transform((val) => val.replace(/\s+/g, " ").trim())
-      .refine((val) => val.length >= 3, { message: "Must be at least 3 characters" })
+      .refine((val) => val.length >= 3, { message: "Must be at least 3 characters." })
       .refine((val) => isValidNumberWord(val, currentLanguage), {
-        message: "Must be a valid number in words",
+        message: "Must be a valid number.",
       }),
     operation: z.enum(["ADD", "SUBTRACT", "MULTIPLY", "DIVIDE", "MOD"]),
   });

@@ -1,16 +1,10 @@
-import { Children, createContext, isValidElement, useContext, type ReactNode } from "react";
+import type { WithChildren, WithClassName } from "@/lib/types";
 
-import type { ClassValue } from "clsx";
+import { Children, createContext, isValidElement, useContext } from "react";
 import { cn } from "@/lib/utils";
 
-interface RootProps {
-  children: ReactNode;
-  className?: ClassValue;
-}
-
-interface StepProps {
-  children: ReactNode;
-}
+type RootProps = WithChildren & WithClassName;
+type StepProps = WithChildren;
 
 const OrderedListContext = createContext<{ step: number }>({ step: 0 });
 

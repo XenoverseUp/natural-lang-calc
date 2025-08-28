@@ -1,20 +1,21 @@
 import { useState, useEffect } from "react";
-import i18n from "@/lib/i18n";
-import { cn } from "@/lib/utils";
-import type { ClassValue } from "clsx";
-import { GlobeIcon } from "lucide-react";
 
-interface Props {
-  className?: ClassValue;
-}
+import { cn } from "@/lib/utils";
+
+import { GlobeIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import type { WithClassName } from "@/lib/types";
+
+type Props = WithClassName;
 
 export default function LanguageSwitcher({ className }: Props) {
+  const { i18n } = useTranslation();
   const [language, setLanguage] = useState(i18n.language);
 
   useEffect(() => {
     i18n.on("languageChanged", setLanguage);
     return () => i18n.off("languageChanged", setLanguage);
-  }, []);
+  }, [i18n]);
 
   return (
     <div
@@ -28,19 +29,19 @@ export default function LanguageSwitcher({ className }: Props) {
       <GlobeIcon className="size-4 pointer-events-none text-blue-500" strokeWidth={1.5} />
       <div className="flex items-center gap-1.5 text-muted-foreground *:transition">
         <button
+          onClick={() => i18n.changeLanguage("en")}
           className={cn("cursor-pointer", {
             "font-medium text-foreground pointer-events-none": language === "en",
           })}
-          onClick={() => i18n.changeLanguage("en")}
         >
           EN
         </button>
         <span aria-hidden className="w-px bg-muted-foreground/70 h-3"></span>
         <button
+          onClick={() => i18n.changeLanguage("tr")}
           className={cn("cursor-pointer", {
             "font-medium text-foreground pointer-events-none": language === "tr",
           })}
-          onClick={() => i18n.changeLanguage("tr")}
         >
           TR
         </button>

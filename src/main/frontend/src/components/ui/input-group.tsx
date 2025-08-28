@@ -1,8 +1,6 @@
-import type { ReactNode } from "react";
+import type { WithChildren } from "@/lib/types";
 
-interface Props {
-  children: ReactNode | ReactNode[];
-}
+type Props = WithChildren;
 
 export default function InputGroup({ children }: Props) {
   return (
