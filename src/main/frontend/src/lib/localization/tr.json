@@ -1,0 +1,11 @@
+{
+  "translation": {
+    "title": "Doğal Dil Hesaplayıcı",
+    "description": "Artık sembollerle düşünmeye gerek yok — hesabınızı yüksek sesle söyler gibi yazın. Doğal Dil Hesaplayıcı günlük dili anlar; böylece sayılarla uğraşmadan toplama, çıkarma, çarpma veya bölme yapabilirsiniz.",
+    "steps": {
+      "1": "Ana dilinizi seçin.",
+      "2": "Sayıları telaffuz ettiğiniz gibi girin.",
+      "3": "İşleminizi seçin ve hesaplayın."
+    }
+  }
+}

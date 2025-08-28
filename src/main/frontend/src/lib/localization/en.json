@@ -1,0 +1,11 @@
+{
+  "translation": {
+    "title": "Natural Language Calculator",
+    "description": "No need to think in symbols anymore — just type your calculation the way you would say it out loud. The Natural Language Calculator understands everyday language, so you can add, subtract, multiply, or divide without worrying about numbers.",
+    "steps": {
+      "1": "Pick your native language.",
+      "2": "Enter two numbers as you pronounce it.",
+      "3": "Select your operation and calculate."
+    }
+  }
+}
