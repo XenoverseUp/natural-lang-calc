@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import i18n, { changeLocale } from "@/i18n";
+import i18n from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { ClassValue } from "clsx";
 import { GlobeIcon } from "lucide-react";
@@ -20,7 +20,7 @@ export default function LanguageSwitcher({ className }: Props) {
     <div
       className={cn(
         className,
-        "flex items-center gap-2.5 text-sm px-2.5 py-1.5 rounded-full bg-[#FAFAF9] z-30 select-none",
+        "flex items-center gap-2.5 text-sm px-2.5 py-1.5 rounded-full bg-background z-30 select-none",
         "border border-b-3 transition-[transform_opacity]",
         "has-active:scale-97 has-active:opacity-80 has-active:border-b has-active:translate-y-1",
       )}
@@ -31,7 +31,7 @@ export default function LanguageSwitcher({ className }: Props) {
           className={cn("cursor-pointer", {
             "font-medium text-foreground pointer-events-none": language === "en",
           })}
-          onClick={() => changeLocale("en")}
+          onClick={() => i18n.changeLanguage("en")}
         >
           EN
         </button>
@@ -40,7 +40,7 @@ export default function LanguageSwitcher({ className }: Props) {
           className={cn("cursor-pointer", {
             "font-medium text-foreground pointer-events-none": language === "tr",
           })}
-          onClick={() => changeLocale("tr")}
+          onClick={() => i18n.changeLanguage("tr")}
         >
           TR
         </button>
