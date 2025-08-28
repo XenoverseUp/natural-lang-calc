@@ -18,4 +18,9 @@ i18n.use(initReactI18next).init({
   },
 });
 
+export function changeLocale(language: string) {
+  i18n.changeLanguage(language);
+  localStorage.setItem("calc-lang", language);
+}
+
 export default i18n;

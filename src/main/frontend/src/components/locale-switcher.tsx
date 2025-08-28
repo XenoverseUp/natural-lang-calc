@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import i18n from "@/i18n";
+import i18n, { changeLocale } from "@/i18n";
 import { cn } from "@/lib/utils";
 import type { ClassValue } from "clsx";
 import { GlobeIcon } from "lucide-react";
@@ -11,12 +11,6 @@ interface Props {
 export default function LanguageSwitcher({ className }: Props) {
   const [language, setLanguage] = useState(i18n.language);
 
-  const changeLanguage = (language: string) => {
-    i18n.changeLanguage(language);
-    localStorage.setItem("calc-lang", language);
-    setLanguage(language);
-  };
-
   useEffect(() => {
     i18n.on("languageChanged", setLanguage);
     return () => i18n.off("languageChanged", setLanguage);
@@ -26,16 +20,18 @@ export default function LanguageSwitcher({ className }: Props) {
     <div
       className={cn(
         className,
-        "flex items-center gap-2.5 text-sm px-2.5 py-1.5 has-active:scale-95 has-active:opacity-80 rounded-full bg-[#FAFAF9] z-30 border transition-[transform_opacity] select-none",
+        "flex items-center gap-2.5 text-sm px-2.5 py-1.5 rounded-full bg-[#FAFAF9] z-30 select-none",
+        "border border-b-3 transition-[transform_opacity]",
+        "has-active:scale-97 has-active:opacity-80 has-active:border-b has-active:translate-y-1",
       )}
     >
-      <GlobeIcon className="size-4 pointer-events-none" strokeWidth={1.5} />
-      <div className="flex items-center gap-1.5 text-muted-foreground">
+      <GlobeIcon className="size-4 pointer-events-none text-blue-500" strokeWidth={1.5} />
+      <div className="flex items-center gap-1.5 text-muted-foreground *:transition">
         <button
           className={cn("cursor-pointer", {
             "font-medium text-foreground pointer-events-none": language === "en",
           })}
-          onClick={() => changeLanguage("en")}
+          onClick={() => changeLocale("en")}
         >
           EN
         </button>
@@ -44,7 +40,7 @@ export default function LanguageSwitcher({ className }: Props) {
           className={cn("cursor-pointer", {
             "font-medium text-foreground pointer-events-none": language === "tr",
           })}
-          onClick={() => changeLanguage("tr")}
+          onClick={() => changeLocale("tr")}
         >
           TR
         </button>
