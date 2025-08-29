@@ -2,6 +2,7 @@ package com.xenoverseup.natural_calculator.controller;
 
 import com.xenoverseup.natural_calculator.dto.CalculationRequest;
 import com.xenoverseup.natural_calculator.dto.CalculationResponse;
+import com.xenoverseup.natural_calculator.model.AppLocale;
 import com.xenoverseup.natural_calculator.model.Operation;
 import com.xenoverseup.natural_calculator.service.CalculationService;
 import jakarta.validation.Valid;
@@ -23,12 +24,17 @@ public class CalculationController {
 
     @PostMapping("/calculate")
     public ResponseEntity<CalculationResponse> calculate(@Valid @RequestBody CalculationRequest body) {
+        CalculationRequest.Numbers numbers = body.getNumbers();
+        Operation operation = body.getOperation();
+        AppLocale appLocale = body.getAppLocale();
+
         String result = calculationService.calculate(
-                body.getNumber1(),
-                body.getNumber2(),
-                body.getOperation(),
-                body.getAppLocale()
+                numbers.getFirst(),
+                numbers.getSecond(),
+                operation,
+                appLocale
         );
+
 
         CalculationResponse response = new CalculationResponse(result);
         return ResponseEntity.ok(response);

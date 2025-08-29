@@ -5,9 +5,18 @@ meta {
 }
 
 post {
-  url: {{host}}/{{spec}}/calculate
-  body: none
+  url: {{host}}{{spec}}/calculate
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "number1": "five hundred eleven",
+    "number2": "one hundred",
+    "operation": "MOD",
+    "appLocale": "EN"
+  }
 }
 
 settings {

@@ -1,11 +1,13 @@
 import type { WithClassName } from "@/lib/types";
 
-import { Form } from "./ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { cn, isValidNumberWord } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
+import { Textarea } from "./ui/textarea";
+import InputGroup from "./ui/input-group";
 
 type Props = WithClassName;
 
@@ -47,7 +49,32 @@ export default function CalculatorForm({ className }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className={cn(className, "px-6")}>
-        Form.
+        <FormItem>
+          <FormLabel>Numbers</FormLabel>
+          <InputGroup>
+            <FormField
+              control={form.control}
+              name="firstNumber"
+              render={({ field }) => (
+                <FormControl>
+                  <Textarea placeholder="First Number..." {...field} />
+                </FormControl>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="secondNumber"
+              render={({ field }) => (
+                <FormControl>
+                  <Textarea {...field} />
+                </FormControl>
+              )}
+            />
+          </InputGroup>
+
+          <FormDescription>Enter the numbers to operate on.</FormDescription>
+        </FormItem>
       </form>
     </Form>
   );
