@@ -35,7 +35,6 @@ public class CalculationController {
                 appLocale
         );
 
-
         CalculationResponse response = new CalculationResponse(result);
         return ResponseEntity.ok(response);
     }

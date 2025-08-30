@@ -56,43 +56,21 @@ public final class EnglishNumberProcessor implements NumberProcessor {
             return TENS[tens] + (units != 0 ? " " + recurringStringify(units) : "");
         }
 
-        if (number < 1000) {
-            int hundreds = number / 100;
-            int remainder = number % 100;
+        if (number < 1000) return buildMultiplierString(number, 100, "hundred");
+        if (number < 1_000_000) return buildMultiplierString(number, 1000, "thousand");
+        if (number < 1_000_000_000) return buildMultiplierString(number, 1_000_000, "million");
 
-            String head = recurringStringify(hundreds);
-            String tail = remainder != 0 ? " " + recurringStringify(remainder) : "";
+        return buildMultiplierString(number, 1_000_000_000, "trillion");
+    }
 
-            return String.format("%s hundred%s", head, tail);
-        }
+    private String buildMultiplierString(int number, int multiplier, String unit) {
+        int fullPart = number / multiplier;
+        int remainder = number % multiplier;
 
-        if (number < 1_000_000) {
-            int thousands = number / 1000;
-            int remainder = number % 1000;
-
-            String head = recurringStringify(thousands);
-            String tail = remainder != 0 ? " " + recurringStringify(remainder) : "";
-
-            return String.format("%s thousand%s", head, tail);
-        }
-
-        if (number < 1_000_000_000) {
-            int millions = number / 1_000_000;
-            int remainder = number % 1_000_000;
-
-            String head = recurringStringify(millions);
-            String tail = remainder != 0 ? " " + recurringStringify(remainder) : "";
-
-            return String.format("%s million%s", head, tail);
-        }
-
-        int billions = number / 1_000_000_000;
-        int remainder = number % 1_000_000_000;
-
-        String head = recurringStringify(billions);
+        String head = recurringStringify(fullPart);
         String tail = remainder != 0 ? " " + recurringStringify(remainder) : "";
 
-        return String.format("%s billion%s", head, tail);
+        return String.format("%s %s%s", head, unit, tail);
     }
 
     @Override
@@ -114,10 +92,14 @@ public final class EnglishNumberProcessor implements NumberProcessor {
             else if (TENS_MAP.containsKey(word))
                 current += TENS_MAP.get(word);
             else if (MULTIPLIERS.containsKey(word)) {
+                int multiplier = MULTIPLIERS.get(word);
+
                 if (word.equals("hundred")) {
-                    current *= MULTIPLIERS.get(word);
-                } else { // thousand, million, billion
-                    current *= MULTIPLIERS.get(word);
+                    if (current == 0) current = 1;
+                    current *= multiplier;
+                } else {
+                    if (current == 0) current = 1;
+                    current *= multiplier;
                     total += current;
                     current = 0;
                 }
