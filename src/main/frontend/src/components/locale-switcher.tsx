@@ -23,7 +23,7 @@ export default function LanguageSwitcher({ className }: Props) {
         className,
         "flex items-center gap-2.5 text-sm px-2.5 py-1.5 rounded-full bg-background z-30 select-none",
         "border border-b-3 transition-[transform_opacity]",
-        "has-active:scale-97 has-active:opacity-80 has-active:border-b has-active:translate-y-1",
+        "has-active:scale-99 has-active:opacity-80 has-active:border-b has-active:translate-y-0.5",
       )}
     >
       <GlobeIcon className="size-4 pointer-events-none text-blue-500" strokeWidth={1.5} />

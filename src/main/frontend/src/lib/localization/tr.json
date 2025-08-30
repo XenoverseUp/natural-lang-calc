@@ -6,6 +6,26 @@
       "1": "Ana dilinizi seçin.",
       "2": "Sayıları telaffuz ettiğiniz gibi girin.",
       "3": "İşleminizi seçin ve hesaplayın."
+    },
+    "form": {
+      "numbers": "Sayılar",
+      "firstNumber": "Birinci Sayı",
+      "secondNumber": "İkinci Sayı",
+      "operation": "İşlem",
+      "operationDescription": "Bir işlem seçin.",
+      "submit": "Hesapla",
+      "reset": "Sıfırla",
+      "errors": {
+        "minLength": "En az 3 karakter olmalı.",
+        "invalidNumber": "Geçerli bir sayı olmalı."
+      },
+      "operations": {
+        "add": "Topla",
+        "subtract": "Çıkar",
+        "multiply": "Çarp",
+        "divide": "Böl",
+        "modulus": "Mod"
+      }
     }
   }
 }

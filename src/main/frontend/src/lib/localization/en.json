@@ -6,6 +6,26 @@
       "1": "Pick your native language.",
       "2": "Enter two numbers as you pronounce it.",
       "3": "Select your operation and calculate."
+    },
+    "form": {
+      "numbers": "Numbers",
+      "firstNumber": "First Number",
+      "secondNumber": "Second Number",
+      "operation": "Operation",
+      "operationDescription": "Select the operation.",
+      "submit": "Calculate",
+      "reset": "Reset",
+      "errors": {
+        "minLength": "Must be at least 3 characters.",
+        "invalidNumber": "Must be a valid number."
+      },
+      "operations": {
+        "add": "Add",
+        "subtract": "Subtract",
+        "multiply": "Multiply",
+        "divide": "Divide",
+        "modulus": "Modulus"
+      }
     }
   }
 }

@@ -11,7 +11,7 @@ export default function Landing({ className }: Props) {
   const { t } = useTranslation();
 
   return (
-    <header className={cn(className, "px-8 xl:px-16")}>
+    <header className={cn(className, "px-16")}>
       <div className="p-2 rounded-lg bg-indigo-100 w-fit mx-auto grid place-items-center mb-4">
         <Tally5Icon className="text-indigo-600" />
       </div>

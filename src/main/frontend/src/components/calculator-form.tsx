@@ -13,60 +13,67 @@ import { Label } from "./ui/label";
 import { DivideIcon, MinusIcon, PercentIcon, PlusIcon, XIcon } from "lucide-react";
 import For from "@/components/common/for";
 import { IfValue } from "@/components/common/if";
+import { Button } from "./ui/button";
 
-type Props = WithClassName;
+import type { TFunction } from "i18next";
 
-const operations = [
+const getOperations = (t: TFunction) => [
   {
-    label: "Add",
+    label: t("form.operations.add"),
     value: OperationEnum.ADD,
     Icon: PlusIcon,
     activeStyle: "bg-blue-400 border-blue-500 text-primary-foreground",
   },
   {
-    label: "Subtract",
+    label: t("form.operations.subtract"),
     value: OperationEnum.SUBTRACT,
     Icon: MinusIcon,
     activeStyle: "bg-orange-400 border-orange-500 text-primary-foreground",
   },
   {
-    label: "Multiply",
+    label: t("form.operations.multiply"),
     value: OperationEnum.MULTIPLY,
     Icon: XIcon,
     activeStyle: "bg-lime-500 border-lime-600 text-primary-foreground",
   },
   {
-    label: "Divide",
+    label: t("form.operations.divide"),
     value: OperationEnum.DIVIDE,
     Icon: DivideIcon,
     activeStyle: "bg-teal-400 border-teal-500 text-primary-foreground",
   },
   {
-    label: "Modulus",
+    label: t("form.operations.modulus"),
     value: OperationEnum.MOD,
     Icon: PercentIcon,
     activeStyle: "bg-purple-400 border-purple-500 text-primary-foreground",
   },
 ];
 
+type Props = WithClassName;
+
 export default function CalculatorForm({ className }: Props) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language as "en" | "tr";
 
   const formSchema = z.object({
     firstNumber: z
       .string()
       .transform((val) => val.replace(/\s+/g, " ").trim())
-      .refine((val) => val.length >= 3, { message: "Must be at least 3 characters." })
+      .refine((val) => val.length >= 3, {
+        message: t("form.errors.minLength"),
+      })
       .refine((val) => isValidNumberWord(val, currentLanguage), {
-        message: "Must be a valid number.",
+        message: t("form.errors.invalidNumber"),
       }),
     secondNumber: z
       .string()
       .transform((val) => val.replace(/\s+/g, " ").trim())
-      .refine((val) => val.length >= 3, { message: "Must be at least 3 characters." })
+      .refine((val) => val.length >= 3, {
+        message: t("form.errors.minLength"),
+      })
       .refine((val) => isValidNumberWord(val, currentLanguage), {
-        message: "Must be a valid number.",
+        message: t("form.errors.invalidNumber"),
       }),
     operation: z.enum(OperationEnum),
   });
@@ -84,18 +91,22 @@ export default function CalculatorForm({ className }: Props) {
     console.log(values);
   }
 
+  const operations = getOperations(t);
+  const activeOperation = operations.find((op) => op.value === form.watch("operation"))!;
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn(className, "px-6 space-y-6")}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className={cn(className, "p-6 pb-8 flex flex-col gap-6")}>
+        {/* Number Inputs */}
         <FormItem>
-          <FormLabel>Numbers</FormLabel>
+          <FormLabel>{t("form.numbers")}</FormLabel>
           <InputGroup>
             <FormField
               control={form.control}
               name="firstNumber"
               render={({ field }) => (
                 <FormControl>
-                  <Textarea placeholder="First Number" {...field} />
+                  <Textarea placeholder={t("form.firstNumber")} {...field} />
                 </FormControl>
               )}
             />
@@ -105,7 +116,7 @@ export default function CalculatorForm({ className }: Props) {
               name="secondNumber"
               render={({ field }) => (
                 <FormControl>
-                  <Textarea placeholder="Second Number" {...field} />
+                  <Textarea placeholder={t("form.secondNumber")} {...field} />
                 </FormControl>
               )}
             />
@@ -123,13 +134,14 @@ export default function CalculatorForm({ className }: Props) {
           />
         </FormItem>
 
+        {/* Operation Radio Group */}
         <FormField
           control={form.control}
           name="operation"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Operation</FormLabel>
-              <FormDescription>Select the operation.</FormDescription>
+              <FormLabel>{t("form.operation")}</FormLabel>
+              <FormDescription>{t("form.operationDescription")}</FormDescription>
               <FormControl>
                 <RadioGroup onValueChange={field.onChange} value={field.value} className="grid w-full gap-2">
                   <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(50px,1fr))] gap-2">
@@ -156,6 +168,17 @@ export default function CalculatorForm({ className }: Props) {
             </FormItem>
           )}
         />
+
+        {/* Action Buttons */}
+        <div className="mt-4 flex items-center gap-3">
+          <Button size="lg" className={cn("grow", activeOperation.activeStyle)} type="submit">
+            <activeOperation.Icon />
+            {activeOperation.label}
+          </Button>
+          <Button variant="secondary" size="lg" type="reset" onClick={() => form.reset()}>
+            {t("form.reset")}
+          </Button>
+        </div>
       </form>
     </Form>
   );
