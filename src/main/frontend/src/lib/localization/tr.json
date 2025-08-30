@@ -13,6 +13,7 @@
       "secondNumber": "İkinci Sayı",
       "operation": "İşlem",
       "operationDescription": "Bir işlem seçin.",
+      "result": "Sonuç",
       "submit": "Hesapla",
       "reset": "Sıfırla",
       "errors": {

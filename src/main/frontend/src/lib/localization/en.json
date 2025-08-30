@@ -13,8 +13,9 @@
       "secondNumber": "Second Number",
       "operation": "Operation",
       "operationDescription": "Select the operation.",
+      "result": "Result",
       "submit": "Calculate",
-      "reset": "Reset",
+      "reset": "Clear",
       "errors": {
         "minLength": "Must be at least 3 characters.",
         "invalidNumber": "Must be a valid number."

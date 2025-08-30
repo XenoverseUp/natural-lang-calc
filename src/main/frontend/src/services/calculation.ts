@@ -8,6 +8,7 @@ type CalculateParams = {
     second: string;
   };
   operation: OperationEnum;
+  locale: "en" | "tr";
 };
 
 export async function calculate(params: CalculateParams) {
@@ -16,6 +17,7 @@ export async function calculate(params: CalculateParams) {
       body: {
         numbers: params.numbers,
         operation: params.operation,
+        appLocale: params.locale.toUpperCase(),
       },
     }),
   );

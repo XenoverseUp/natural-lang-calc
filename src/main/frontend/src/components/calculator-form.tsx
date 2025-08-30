@@ -11,10 +11,12 @@ import { Textarea } from "./ui/textarea";
 import InputGroup from "./ui/input-group";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
-import { DivideIcon, MinusIcon, PercentIcon, PlusIcon, XIcon } from "lucide-react";
+import { DivideIcon, DraftingCompass, MinusIcon, PercentIcon, PlusIcon, XIcon } from "lucide-react";
 import For from "@/components/common/for";
-import { IfValue } from "@/components/common/if";
+import { If, IfValue } from "@/components/common/if";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import { calculate } from "@/services/calculation";
 
 type Props = WithClassName;
 
@@ -25,6 +27,8 @@ export default function CalculatorForm({ className }: Props) {
   const formSchema = getFormSchema(currentLanguage, t);
   const operations = getOperations(t);
 
+  const [result, setResult] = useState("");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,8 +38,22 @@ export default function CalculatorForm({ className }: Props) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit({ firstNumber, secondNumber, operation }: z.infer<typeof formSchema>) {
+    const data = await calculate({
+      numbers: {
+        first: firstNumber,
+        second: secondNumber,
+      },
+      operation: operation,
+      locale: currentLanguage,
+    });
+
+    if (!data.result) {
+      setResult("");
+      return;
+    }
+
+    setResult(data.result);
   }
 
   const activeOperation = operations.find((op) => op.value === form.watch("operation"))!;
@@ -115,6 +133,21 @@ export default function CalculatorForm({ className }: Props) {
           )}
         />
 
+        {/* Result Box */}
+
+        <div className="w-full h-20 border bg-accent rounded-lg overflow-auto">
+          <If
+            condition={result === ""}
+            renderItem={() => (
+              <div className="w-full h-full flex items-center justify-center gap-2.5 text-base opacity-75">
+                <DraftingCompass className="size-5" />
+                {t("form.result")}
+              </div>
+            )}
+            renderElse={() => <p className="py-2 px-3 text-sm text-primary/80 capitalize">{result}</p>}
+          />
+        </div>
+
         {/* Action Buttons */}
         <div className="mt-4 flex items-center gap-3">
           <Button size="lg" className={cn("grow", activeOperation.activeStyle)} type="submit">
@@ -128,6 +161,7 @@ export default function CalculatorForm({ className }: Props) {
             onClick={() => {
               form.resetField("firstNumber");
               form.resetField("secondNumber");
+              setResult("");
             }}
           >
             {t("form.reset")}
