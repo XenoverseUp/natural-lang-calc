@@ -2,7 +2,7 @@ import type { TFunction } from "i18next";
 import { OperationEnum, type WithClassName } from "@/lib/types";
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
-import { cn, isValidNumberWord } from "@/lib/utils";
+import { capitalize, cn, isValidNumberWord } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -144,7 +144,7 @@ export default function CalculatorForm({ className }: Props) {
                 {t("form.result")}
               </div>
             )}
-            renderElse={() => <p className="py-2 px-3 text-sm text-primary/80 capitalize">{result}</p>}
+            renderElse={() => <p className="py-2 px-3 text-sm text-primary/80">{capitalize(result, currentLanguage)}</p>}
           />
         </div>
 
@@ -177,7 +177,7 @@ const getFormSchema = (language: "en" | "tr", t: TFunction) =>
     firstNumber: z
       .string()
       .transform((val) => val.replace(/\s+/g, " ").trim())
-      .refine((val) => val.length >= 3, {
+      .refine((val) => val.length >= (language === "en" ? 3 : 2), {
         message: t("form.errors.minLength"),
       })
       .refine((val) => isValidNumberWord(val, language), {

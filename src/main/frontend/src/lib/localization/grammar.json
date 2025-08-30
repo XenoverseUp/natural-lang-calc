@@ -1,5 +1,6 @@
 {
   "en": [
+    "minus",
     "zero",
     "one",
     "two",
@@ -34,6 +35,7 @@
     "billion"
   ],
   "tr": [
+    "eksi",
     "sıfır",
     "bir",
     "iki",

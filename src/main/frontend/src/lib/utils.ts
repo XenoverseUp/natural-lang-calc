@@ -17,3 +17,11 @@ export function isValidNumberWord(val: string, language: "en" | "tr"): boolean {
 
   return regex.test(val);
 }
+
+export function capitalize(str: string, locale: "en" | "tr" = "en"): string {
+  if (!str) return "";
+  return str
+    .split(" ")
+    .map((word) => word.charAt(0).toLocaleUpperCase(locale === "en" ? "en-US" : "tr-TR") + word.slice(1))
+    .join(" ");
+}
