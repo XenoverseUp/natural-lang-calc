@@ -23,10 +23,10 @@ const OrderedList = {
   Step: ({ children }: StepProps) => {
     const { step } = useContext(OrderedListContext);
     return (
-      <div className={cn("flex gap-4")}>
+      <div className={cn("flex gap-4 items-start")}>
         <div
           className={cn(
-            "w-8 aspect-square select-none relative rounded-lg grid place-items-center border-2 border-b-4 text-xs text-muted-foreground ",
+            "w-8 aspect-square select-none relative rounded-lg grid place-items-center border-2 border-b-4 text-xs text-muted-foreground shrink-0",
             {
               "before:w-[2px] before:bg-border before:h-1/2 before:-z-10 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2":
                 step !== 1,

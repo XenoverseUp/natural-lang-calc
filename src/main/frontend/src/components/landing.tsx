@@ -16,7 +16,7 @@ export default function Landing({ className }: Props) {
         <Tally5Icon className="text-indigo-600" />
       </div>
 
-      <h1 className="bg-opacity-50 bg-gradient-to-b text-center from-slate-900 to-slate-700 bg-clip-text text-4xl font-bold text-transparent md:text-5xl whitespace-nowrap pb-1">
+      <h1 className="bg-opacity-50 bg-gradient-to-b text-center from-slate-900 to-slate-700 bg-clip-text text-4xl font-bold text-transparent md:text-5xl pb-1">
         {t("title")}
       </h1>
 

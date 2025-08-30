@@ -108,7 +108,7 @@ export default function CalculatorForm({ className }: Props) {
               <FormDescription>{t("form.operationDescription")}</FormDescription>
               <FormControl>
                 <RadioGroup onValueChange={field.onChange} value={field.value} className="grid w-full gap-2">
-                  <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(50px,1fr))] gap-2">
+                  <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(40px,1fr))] gap-1.5 sm:gap-2">
                     <For
                       each={operations}
                       renderItem={({ value, Icon, activeStyle }) => (
@@ -120,7 +120,7 @@ export default function CalculatorForm({ className }: Props) {
                             field.value === value ? activeStyle : "hover:bg-muted",
                           )}
                         >
-                          <Icon className="size-4" />
+                          <Icon className="size-4 shrink-0" />
                           <RadioGroupItem value={value} id={value} className="hidden" />
                         </Label>
                       )}
