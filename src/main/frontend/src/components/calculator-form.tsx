@@ -8,8 +8,46 @@ import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { Textarea } from "./ui/textarea";
 import InputGroup from "./ui/input-group";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { Label } from "./ui/label";
+import { DivideIcon, MinusIcon, PercentIcon, PlusIcon, XIcon } from "lucide-react";
+import For from "@/components/common/for";
+import { IfValue } from "@/components/common/if";
 
 type Props = WithClassName;
+
+const operations = [
+  {
+    label: "Add",
+    value: "ADD",
+    Icon: PlusIcon,
+    activeStyle: "bg-blue-400 border-blue-500 text-primary-foreground",
+  },
+  {
+    label: "Subtract",
+    value: "SUBTRACT",
+    Icon: MinusIcon,
+    activeStyle: "bg-orange-400 border-orange-500 text-primary-foreground",
+  },
+  {
+    label: "Multiply",
+    value: "MULTIPLY",
+    Icon: XIcon,
+    activeStyle: "bg-lime-500 border-lime-600 text-primary-foreground",
+  },
+  {
+    label: "Divide",
+    value: "DIVIDE",
+    Icon: DivideIcon,
+    activeStyle: "bg-teal-400 border-teal-500 text-primary-foreground",
+  },
+  {
+    label: "Modulus",
+    value: "MOD",
+    Icon: PercentIcon,
+    activeStyle: "bg-purple-400 border-purple-500 text-primary-foreground",
+  },
+];
 
 export default function CalculatorForm({ className }: Props) {
   const { i18n } = useTranslation();
@@ -48,7 +86,7 @@ export default function CalculatorForm({ className }: Props) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn(className, "px-6")}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className={cn(className, "px-6 space-y-6")}>
         <FormItem>
           <FormLabel>Numbers</FormLabel>
           <InputGroup>
@@ -57,7 +95,7 @@ export default function CalculatorForm({ className }: Props) {
               name="firstNumber"
               render={({ field }) => (
                 <FormControl>
-                  <Textarea placeholder="First Number..." {...field} />
+                  <Textarea placeholder="First Number" {...field} />
                 </FormControl>
               )}
             />
@@ -67,14 +105,57 @@ export default function CalculatorForm({ className }: Props) {
               name="secondNumber"
               render={({ field }) => (
                 <FormControl>
-                  <Textarea {...field} />
+                  <Textarea placeholder="Second Number" {...field} />
                 </FormControl>
               )}
             />
           </InputGroup>
 
-          <FormDescription>Enter the numbers to operate on.</FormDescription>
+          <IfValue
+            present={form.formState.errors.firstNumber}
+            renderItem={(firstNumber) => <FormMessage>{firstNumber.message}</FormMessage>}
+            renderElse={() => (
+              <IfValue
+                present={form.formState.errors.secondNumber}
+                renderItem={(secondNumber) => <FormMessage>{secondNumber.message}</FormMessage>}
+              />
+            )}
+          />
         </FormItem>
+
+        <FormField
+          control={form.control}
+          name="operation"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Operation</FormLabel>
+              <FormDescription>Select the operation.</FormDescription>
+              <FormControl>
+                <RadioGroup onValueChange={field.onChange} value={field.value} className="grid w-full gap-2">
+                  <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(50px,1fr))] gap-2">
+                    <For
+                      each={operations}
+                      renderItem={({ value, Icon, activeStyle }) => (
+                        <Label
+                          key={value}
+                          htmlFor={value}
+                          className={cn(
+                            "flex cursor-pointer items-center justify-center gap-2 rounded-md border border-b-4 px-4 py-2 transition",
+                            field.value === value ? activeStyle : "hover:bg-muted",
+                          )}
+                        >
+                          <Icon className="size-4" />
+                          <RadioGroupItem value={value} id={value} className="hidden" />
+                        </Label>
+                      )}
+                    />
+                  </div>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </form>
     </Form>
   );
