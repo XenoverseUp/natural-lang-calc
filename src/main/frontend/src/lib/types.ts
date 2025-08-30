@@ -16,3 +16,10 @@ export enum OperationEnum {
   DIVIDE = "DIVIDE",
   MOD = "MOD",
 }
+
+export type EndPoint = {
+  url: string;
+  method: HTTPMethod;
+};
+
+export type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "OPTIONS" | "HEAD";

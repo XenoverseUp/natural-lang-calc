@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import { OperationEnum, type WithClassName } from "@/lib/types";
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
@@ -15,68 +16,14 @@ import For from "@/components/common/for";
 import { IfValue } from "@/components/common/if";
 import { Button } from "./ui/button";
 
-import type { TFunction } from "i18next";
-
-const getOperations = (t: TFunction) => [
-  {
-    label: t("form.operations.add"),
-    value: OperationEnum.ADD,
-    Icon: PlusIcon,
-    activeStyle: "bg-blue-400 border-blue-500 text-primary-foreground",
-  },
-  {
-    label: t("form.operations.subtract"),
-    value: OperationEnum.SUBTRACT,
-    Icon: MinusIcon,
-    activeStyle: "bg-orange-400 border-orange-500 text-primary-foreground",
-  },
-  {
-    label: t("form.operations.multiply"),
-    value: OperationEnum.MULTIPLY,
-    Icon: XIcon,
-    activeStyle: "bg-lime-500 border-lime-600 text-primary-foreground",
-  },
-  {
-    label: t("form.operations.divide"),
-    value: OperationEnum.DIVIDE,
-    Icon: DivideIcon,
-    activeStyle: "bg-teal-400 border-teal-500 text-primary-foreground",
-  },
-  {
-    label: t("form.operations.modulus"),
-    value: OperationEnum.MOD,
-    Icon: PercentIcon,
-    activeStyle: "bg-purple-400 border-purple-500 text-primary-foreground",
-  },
-];
-
 type Props = WithClassName;
 
 export default function CalculatorForm({ className }: Props) {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language as "en" | "tr";
 
-  const formSchema = z.object({
-    firstNumber: z
-      .string()
-      .transform((val) => val.replace(/\s+/g, " ").trim())
-      .refine((val) => val.length >= 3, {
-        message: t("form.errors.minLength"),
-      })
-      .refine((val) => isValidNumberWord(val, currentLanguage), {
-        message: t("form.errors.invalidNumber"),
-      }),
-    secondNumber: z
-      .string()
-      .transform((val) => val.replace(/\s+/g, " ").trim())
-      .refine((val) => val.length >= 3, {
-        message: t("form.errors.minLength"),
-      })
-      .refine((val) => isValidNumberWord(val, currentLanguage), {
-        message: t("form.errors.invalidNumber"),
-      }),
-    operation: z.enum(OperationEnum),
-  });
+  const formSchema = getFormSchema(currentLanguage, t);
+  const operations = getOperations(t);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -91,7 +38,6 @@ export default function CalculatorForm({ className }: Props) {
     console.log(values);
   }
 
-  const operations = getOperations(t);
   const activeOperation = operations.find((op) => op.value === form.watch("operation"))!;
 
   return (
@@ -175,7 +121,15 @@ export default function CalculatorForm({ className }: Props) {
             <activeOperation.Icon />
             {activeOperation.label}
           </Button>
-          <Button variant="secondary" size="lg" type="reset" onClick={() => form.reset()}>
+          <Button
+            variant="secondary"
+            size="lg"
+            type="reset"
+            onClick={() => {
+              form.resetField("firstNumber");
+              form.resetField("secondNumber");
+            }}
+          >
             {t("form.reset")}
           </Button>
         </div>
@@ -183,3 +137,59 @@ export default function CalculatorForm({ className }: Props) {
     </Form>
   );
 }
+
+const getFormSchema = (language: "en" | "tr", t: TFunction) =>
+  z.object({
+    firstNumber: z
+      .string()
+      .transform((val) => val.replace(/\s+/g, " ").trim())
+      .refine((val) => val.length >= 3, {
+        message: t("form.errors.minLength"),
+      })
+      .refine((val) => isValidNumberWord(val, language), {
+        message: t("form.errors.invalidNumber"),
+      }),
+    secondNumber: z
+      .string()
+      .transform((val) => val.replace(/\s+/g, " ").trim())
+      .refine((val) => val.length >= 3, {
+        message: t("form.errors.minLength"),
+      })
+      .refine((val) => isValidNumberWord(val, language), {
+        message: t("form.errors.invalidNumber"),
+      }),
+    operation: z.enum(OperationEnum),
+  });
+
+const getOperations = (t: TFunction) => [
+  {
+    label: t("form.operations.add"),
+    value: OperationEnum.ADD,
+    Icon: PlusIcon,
+    activeStyle: "bg-blue-400 border-blue-500 text-primary-foreground",
+  },
+  {
+    label: t("form.operations.subtract"),
+    value: OperationEnum.SUBTRACT,
+    Icon: MinusIcon,
+    activeStyle: "bg-orange-400 border-orange-500 text-primary-foreground",
+  },
+  {
+    label: t("form.operations.multiply"),
+    value: OperationEnum.MULTIPLY,
+    Icon: XIcon,
+    activeStyle: "bg-lime-500 border-lime-600 text-primary-foreground",
+  },
+  {
+    label: t("form.operations.divide"),
+    value: OperationEnum.DIVIDE,
+    Icon: DivideIcon,
+    activeStyle: "bg-teal-400 border-teal-500 text-primary-foreground",
+  },
+  {
+    label: t("form.operations.modulus"),
+    value: OperationEnum.MOD,
+    Icon: PercentIcon,
+    activeStyle: "bg-purple-400 border-purple-500 text-primary-foreground",
+  },
+];
