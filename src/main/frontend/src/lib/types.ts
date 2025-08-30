@@ -23,3 +23,11 @@ export type EndPoint = {
 };
 
 export type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "OPTIONS" | "HEAD";
+
+export type EndpointWithFetch = EndPoint & {
+  fetch: (options?: { body?: any; params?: Record<string, string> }) => Promise<any>;
+};
+
+export type EndpointsWithFetch<T extends Record<string, EndPoint>> = {
+  [K in keyof T]: EndpointWithFetch;
+};
