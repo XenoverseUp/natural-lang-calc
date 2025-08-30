@@ -8,3 +8,11 @@ export type WithClassName = {
 export type WithChildren = {
   children: ReactNode;
 };
+
+export enum OperationEnum {
+  ADD = "ADD",
+  SUBTRACT = "SUBTRACT",
+  MULTIPLY = "MULTIPLY",
+  DIVIDE = "DIVIDE",
+  MOD = "MOD",
+}

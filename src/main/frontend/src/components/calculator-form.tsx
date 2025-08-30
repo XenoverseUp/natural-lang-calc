@@ -1,4 +1,4 @@
-import type { WithClassName } from "@/lib/types";
+import { OperationEnum, type WithClassName } from "@/lib/types";
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { cn, isValidNumberWord } from "@/lib/utils";
@@ -19,31 +19,31 @@ type Props = WithClassName;
 const operations = [
   {
     label: "Add",
-    value: "ADD",
+    value: OperationEnum.ADD,
     Icon: PlusIcon,
     activeStyle: "bg-blue-400 border-blue-500 text-primary-foreground",
   },
   {
     label: "Subtract",
-    value: "SUBTRACT",
+    value: OperationEnum.SUBTRACT,
     Icon: MinusIcon,
     activeStyle: "bg-orange-400 border-orange-500 text-primary-foreground",
   },
   {
     label: "Multiply",
-    value: "MULTIPLY",
+    value: OperationEnum.MULTIPLY,
     Icon: XIcon,
     activeStyle: "bg-lime-500 border-lime-600 text-primary-foreground",
   },
   {
     label: "Divide",
-    value: "DIVIDE",
+    value: OperationEnum.DIVIDE,
     Icon: DivideIcon,
     activeStyle: "bg-teal-400 border-teal-500 text-primary-foreground",
   },
   {
     label: "Modulus",
-    value: "MOD",
+    value: OperationEnum.MOD,
     Icon: PercentIcon,
     activeStyle: "bg-purple-400 border-purple-500 text-primary-foreground",
   },
@@ -68,13 +68,13 @@ export default function CalculatorForm({ className }: Props) {
       .refine((val) => isValidNumberWord(val, currentLanguage), {
         message: "Must be a valid number.",
       }),
-    operation: z.enum(["ADD", "SUBTRACT", "MULTIPLY", "DIVIDE", "MOD"]),
+    operation: z.enum(OperationEnum),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      operation: "ADD",
+      operation: OperationEnum.ADD,
       firstNumber: "",
       secondNumber: "",
     },
