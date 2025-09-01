@@ -14,7 +14,7 @@ public class LocaleConfig {
     @Bean
     public LocaleResolver localeResolver() {
         AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
-        resolver.setDefaultLocale(new Locale("tr"));
+        resolver.setDefaultLocale(new Locale("en"));
         return resolver;
     }
 
