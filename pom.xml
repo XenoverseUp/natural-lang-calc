@@ -125,6 +125,18 @@
                         </configuration>
                     </execution>
 
+                    <execution>
+                        <id>npm rebuild esbuild</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>rebuild esbuild</arguments>
+                        </configuration>
+                    </execution>
+
+
                     <!-- build our production version -->
                     <execution>
                         <id>npm build</id>
